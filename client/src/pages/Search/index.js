@@ -52,20 +52,61 @@ function Search() {
     };
 
     return (
-        <div>
-        <Container style={{ minHeight: "100vh" }}>
-            <h1 className="text-center">Search For A Book</h1>
-            <Alert type="danger" style={{ opacity: error ? 1 : 0, marginBottom: 10 }}>
-            {error}
-            </Alert>
-            <SearchForm
-            handleFormSubmit={handleFormSubmit}
-            handleInputChange={handleInputChange}
-            results={search}
-            />
-            <BookCard title={title} url={url} />
-        </Container>
-        </div>
+        <Container fluid>
+        <Row>
+          <Col size="md-6">
+            <Jumbotron>
+              <h1>What Books Should I Read?</h1>
+            </Jumbotron>
+            <form>
+              <Input
+                onChange={() => {}}
+                name="title"
+                placeholder="Title (required)"
+              />
+              <Input
+                onChange={() => {}}
+                name="author"
+                placeholder="Author (required)"
+              />
+              <TextArea
+                onChange={() => {}}
+                name="synopsis"
+                placeholder="Synopsis (Optional)"
+              />
+              <FormBtn
+                disabled={!(formObject.author && formObject.title)}
+                onClick={() => {}}
+              >
+                Submit Book
+              </FormBtn>
+            </form>
+          </Col>
+          <Col size="md-6 sm-12">
+            <Jumbotron>
+              <h1>New Books</h1>
+            </Jumbotron>
+            {books.length ? (
+              <List>
+                {books.map(book => {
+                  return (
+                    <ListItem key={book._id}>
+                      <a href={"/books/" + book._id}>
+                        <strong>
+                          {book.title} by {book.author}
+                        </strong>
+                      </a>
+                        <Button id={book._id} handleClick={handleSaveBook} name={"Save"} />
+                    </ListItem>
+                  );
+                })}
+              </List>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
+          </Col>
+        </Row>
+      </Container>
     );
 }
 
