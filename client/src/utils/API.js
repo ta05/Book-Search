@@ -8,4 +8,16 @@ const searchBooks = function(query) {
     );
 };
 
-export default { searchBooks }
+const getBooks = function () {
+    return axios.get("/api/books");
+};
+
+const saveBook = function (bookData) {
+    return axios.post("/api/books", bookData);
+};
+
+const deleteBook = function (id) {
+    return axios.delte("/api/books/" + id);
+};
+
+export default { searchBooks, getBooks, saveBook, deleteBook }
