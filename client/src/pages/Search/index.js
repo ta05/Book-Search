@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Container from "../../components/Container";
+import {Row, Col, Container} from "../../components/Grid";
 import SearchForm from "../../components/SearchForm";
 import SearchResults from "../../components/BookCard";
 import API from "../../utils/API";
 
 function Search() {
     const [search, setSearch] = useState("");
-    const [books, setBooks] = useState("");
+    const [books, setBooks] = useState([]);
+    const [message, setMessage] = useState("Search for a book");
 
   // When the component mounts, update the title to be Wikipedia Searcher
     useEffect(() => {
@@ -23,16 +24,31 @@ function Search() {
         event.preventDefault();
 
         API.searchBooks(search)
-        .then(res => {
-            if (res.data.length === 0) {
-                throw new Error("No results found.");
-            }
-            if (res.data.status === "error") {
-                throw new Error(res.data.message);
-            }
-            setBooks(res.items);
+            .then(res => {
+                if (res.data.length === 0) {
+                    setMessage("No New Books");
+                }
+                else
+                    setBooks(res.data);
+            })
+            .catch(() =>
+                setMessage("There was an error in your Search")
+            );
+    };
+
+    const handleSaveBooks = id => {
+        const book = books.find(book => book.id === id);
+
+        API.saveBook({
+            googleId: book.id,
+            title: book.volumeInfo.title,
+            authors: book.volumeInfo.authors,
+            description: book.volumeInfo.description,
+            image: book.volumeInfo.image,
+            link: book.volumeInfo.link,
         })
-        .catch(err => setError(err));
+            .then(() => API.getBooks());
+
     };
 
     return (
