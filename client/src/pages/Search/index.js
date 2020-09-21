@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {Row, Col, Container} from "../../components/Grid";
 import SearchForm from "../../components/SearchForm";
+import Jumbotron from "../../components/Jumbotron";
+import { List, ListItem } from "../../components/List";
 import Book from "../../components/Book";
 import API from "../../utils/API";
 
@@ -9,12 +11,6 @@ function Search() {
     const [books, setBooks] = useState([]);
     const [message, setMessage] = useState("Search for a book");
 
-  // When the component mounts, update the title to be Wikipedia Searcher
-    useEffect(() => {
-        if (!search) {
-            return;
-        }
-    }, [search]);
 
     const handleInputChange = event => {
         setSearch(event.target.value);
