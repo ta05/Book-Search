@@ -3,27 +3,28 @@ import Button from "../Button";
 
 function Book(props) {
     return (
-        <a href={props.book.link} target="blank">
-            <div className="card">
-                <div className="img-container">
-                    <img alt={props.book.title} src={props.book.image} />
-                </div>
-                <div className="content">
-                    <ul>
-                        <li>
-                            <h3>{props.book.title}</h3>
-                        </li>
-                        <li>
-                            <p>By {props.book.authors}</p>
-                        </li>
-                        <li>
-                            <p>{props.book.description}</p>
-                        </li>
-                    </ul>
-                </div>
-                <Button id={props.book._id} handleClick={props.handleClick}>{props.name}</Button>
+        <div className="card">
+            <div className="img-container">
+                <img alt={props.book.volumeInfo.title} src={props.book.volumeInfo.imageLinks.thumbnail} />
             </div>
-        </a>
+            <div className="content">
+                <ul>
+                    <li>
+                        <a href={props.book.volumeInfo.infoLink} target="blank">
+                            <h3>{props.book.volumeInfo.title}</h3>
+                        </a>
+                    </li>
+                    <li>
+                        <p>By {props.book.volumeInfo.authors}</p>
+                    </li>
+                    <li>
+                        <p>{props.book.volumeInfo.description}</p>
+                    </li>
+                </ul>
+            </div>
+            <Button id={props.book.id} handleClick={props.handleClick}>{props.name}</Button>
+        </div>
+        
     );
 }
 

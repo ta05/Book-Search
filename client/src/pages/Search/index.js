@@ -8,7 +8,7 @@ import API from "../../utils/API";
 
 function Search() {
     const [search, setSearch] = useState("");
-    const [books, setBooks] = useState([]);
+    const [books, setBooks] = useState("");
     const [message, setMessage] = useState("Search for a book");
 
 
@@ -24,8 +24,10 @@ function Search() {
                 if (res.data.length === 0) {
                     setMessage("No New Books");
                 }
-                else
-                    setBooks(res.data);
+                else {
+                    setBooks(res.data.items);
+                    console.log(books);
+                }
             })
             .catch(() =>
                 setMessage("There was an error in your Search")
@@ -40,8 +42,8 @@ function Search() {
             title: book.volumeInfo.title,
             authors: book.volumeInfo.authors,
             description: book.volumeInfo.description,
-            image: book.volumeInfo.image,
-            link: book.volumeInfo.link,
+            image: book.volumeInfo.imageLinks.thumbnail,
+            link: book.volumeInfo.infoLink,
         })
             .then(() => API.getBooks());
 
@@ -50,7 +52,7 @@ function Search() {
     return (
         <Container fluid>
             <Row>
-                <Col size="offset-md-2 md-8">
+                <Col size="md-8">
                     <SearchForm
                         handleInputChange={handleInputChange}
                         handleFormSubmit={handleFormSubmit}
@@ -74,7 +76,7 @@ function Search() {
                         })}
                     </List>
                 ) : (
-                <h3>No Results to Display</h3>
+                <h3>{message}</h3>
                 )}
                 </Col>
             </Row>
