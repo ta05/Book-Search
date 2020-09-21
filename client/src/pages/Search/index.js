@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {Row, Col, Container} from "../../components/Grid";
 import SearchForm from "../../components/SearchForm";
-import SearchResults from "../../components/BookCard";
+import Book from "../../components/Book";
 import API from "../../utils/API";
 
 function Search() {
@@ -53,60 +53,36 @@ function Search() {
 
     return (
         <Container fluid>
-        <Row>
-          <Col size="md-6">
-            <Jumbotron>
-              <h1>What Books Should I Read?</h1>
-            </Jumbotron>
-            <form>
-              <Input
-                onChange={() => {}}
-                name="title"
-                placeholder="Title (required)"
-              />
-              <Input
-                onChange={() => {}}
-                name="author"
-                placeholder="Author (required)"
-              />
-              <TextArea
-                onChange={() => {}}
-                name="synopsis"
-                placeholder="Synopsis (Optional)"
-              />
-              <FormBtn
-                disabled={!(formObject.author && formObject.title)}
-                onClick={() => {}}
-              >
-                Submit Book
-              </FormBtn>
-            </form>
-          </Col>
-          <Col size="md-6 sm-12">
-            <Jumbotron>
-              <h1>New Books</h1>
-            </Jumbotron>
-            {books.length ? (
-              <List>
-                {books.map(book => {
-                  return (
-                    <ListItem key={book._id}>
-                      <a href={"/books/" + book._id}>
-                        <strong>
-                          {book.title} by {book.author}
-                        </strong>
-                      </a>
-                        <Button id={book._id} handleClick={handleSaveBook} name={"Save"} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
-        </Row>
-      </Container>
+            <Row>
+                <Col size="offset-md-2 md-8">
+                    <SearchForm
+                        handleInputChange={handleInputChange}
+                        handleFormSubmit={handleFormSubmit}
+                        search={search}
+                    />
+                </Col>
+            </Row>
+            <Row>
+                <Col size="md-6 sm-12">
+                    <Jumbotron>
+                        <h1>New Books</h1>
+                    </Jumbotron>
+                    {books.length ? (
+                    <List>
+                        {books.map(book => {
+                        return (
+                            <ListItem key={book._id}>
+                                <Book book={book} handleClick={handleSaveBooks} name={"Save"}/>
+                            </ListItem>
+                        );
+                        })}
+                    </List>
+                ) : (
+                <h3>No Results to Display</h3>
+                )}
+                </Col>
+            </Row>
+        </Container>
     );
 }
 
